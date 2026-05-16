@@ -1,0 +1,20 @@
+.about-header {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Title on left, logo on right */
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+.about-title-bar h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.about-logo-box img {
+  width: clamp(260px, 18vw, 420px); /* Responsive width */
+  object-fit: contain;
+  justify-self: end; /* Align to right */
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
