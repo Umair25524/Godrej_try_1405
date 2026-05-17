@@ -1,16 +1,13 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Navigation from "../components/Navigation.jsx";
 import PageHeader from "../components/PageHeader.jsx";
 import "../styles/about.css";
 
 export default function AboutPage() {
   const [activeLeft, setActiveLeft] = useState(0);
-  const [activeYear, setActiveYear] = useState(0);
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeRight, setActiveRight] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [videoOpen, setVideoOpen] = useState(false);
 
-  // 👉 kept as-is but structured cleanly
   const aboutData = [
     {
       leftTitle: "1897-1947",
@@ -423,7 +420,7 @@ export default function AboutPage() {
           title: "2024",
           text: "The Malanpur Moment",
           description: "Our Malanpur manufacturing plant in Madhya Pradesh (India) has a growing cohort of women who are breaking stereotypes in India’s historic male-dominated manufacturing sector. It symbolises our evolving manufacturing ethos and commitment to community development. ",
-          image: ["src/assets/2024.jpg", "src/assets/2023_Embed.jpg"],
+          image: "src/assets/2024.jpg",
         },
       ],
     },  
@@ -431,165 +428,85 @@ export default function AboutPage() {
 
   const rightData = aboutData[activeLeft].rightButtons;
 
-  // ✅ FIXED: preserves order exactly as input
-  const groupedYears = useMemo(() => {
-    const map = new Map();
-
-    rightData.forEach((item) => {
-      if (!map.has(item.title)) {
-        map.set(item.title, {
-          year: item.title,
-          items: [],
-        });
-      }
-      map.get(item.title).items.push(item);
-    });
-
-    return Array.from(map.values());
-  }, [rightData]);
-const [activeImageIndex, setActiveImageIndex] = useState(0);
-
-  const selectedYear = groupedYears[activeYear];
-  const activeItem = selectedYear.items[activeSlide];
-  const img = activeItem.image;
-  const nextSlide = () => {
-    setActiveSlide((prev) =>
-      prev < selectedYear.items.length - 1 ? prev + 1 : 0
-    );
-  };
-
-  const prevSlide = () => {
-    setActiveSlide((prev) =>
-      prev > 0 ? prev - 1 : selectedYear.items.length - 1
-    );
-  };
-
-  const isVideo = (src) => /\.(mp4|webm|ogg)$/i.test(src);
-
-  return (
+  return ( 
     <main className="about-page">
       <section className="front-panel">
-        <PageHeader title="OUR STORY" />
 
-        <section className="about-layout">
+      {/* HEADER */}
+      <PageHeader title="OUR STORY" />
 
-          {/* LEFT SECTION */}
-          <aside className="about-left">
-            {aboutData.map((item, idx) => (
+      {/* MAIN LAYOUT */}
+      <section className="about-layout">
+
+        {/* LEFT PANEL */}
+        <aside className="about-left">
+          {aboutData.map((item, idx) => (
+            <button
+              key={idx}
+              className={`left-btn ${activeLeft === idx ? "active" : ""}`}
+              onClick={() => {
+                setActiveLeft(idx);
+                setActiveRight(0);
+              }}
+            >
+              {item.leftTitle}
+            </button>
+          ))}
+        </aside>
+
+        {/* RIGHT PANEL */}
+        <section className="about-right">
+
+          {/* TOP BUTTON ROW */}
+          <div className="top-buttons">
+            {rightData.map((item, idx) => (
               <button
                 key={idx}
-                className={`left-btn ${activeLeft === idx ? "active" : ""}`}
-                onClick={() => {
-                  setActiveLeft(idx);
-                  setActiveYear(0);
-                  setActiveSlide(0);
-                }}
+                className={`top-btn ${activeRight === idx ? "active" : ""}`}
+                onClick={() => setActiveRight(idx)}
               >
-                {item.leftTitle}
+                {item.title}
               </button>
             ))}
-          </aside>
+          </div>
 
-          {/* RIGHT SECTION */}
-          <section className="about-right">
+          {/* CONTENT */}
+          <div className="content-area">
 
-            {/* YEAR TOP BAR */}
-            <div className="top-buttons">
-              {groupedYears.map((year, idx) => (
-                <button
-                  key={idx}
-                  className={`top-btn ${activeYear === idx ? "active" : ""}`}
-                  onClick={() => {
-                    setActiveYear(idx);
-                    setActiveSlide(0);
-                  }}
-                >
-                  {year.year}
-                </button>
-              ))}
+            {/* IMAGE */}
+            <div className="image-box">
+              <img
+                src={rightData[activeRight].image}
+                alt=""
+                onClick={() => setLightboxOpen(true)}
+              />
             </div>
 
-            {/* CONTENT */}
-            <div className="content-area">
-
-              {/* IMAGE SECTION */}
-              <div className="image-section">
-                <div className="main-image-wrapper">
-
-                  <button className="nav-arrow left" onClick={prevSlide}>‹</button>
-
-                  {isVideo(activeItem.image) ? (
-                    <div className="video-wrapper">
-                      <video className="main-video" src={activeItem.image} muted playsInline />
-                      <button className="video-play-btn" onClick={() => setVideoOpen(true)}>▶</button>
-                    </div>
-                  ) : (
-                    <img
-                      className="main-image"
-                      src={activeItem.image}
-                      alt={activeItem.text}
-                      onClick={() => setLightboxOpen(true)}
-                    />
-                  )}
-
-                  <button className="nav-arrow right" onClick={nextSlide}>›</button>
-
-                  <div className="slide-counter">
-                    {activeSlide + 1} / {selectedYear.items.length}
-                  </div>
-                </div>
-
-                {/* THUMBNAILS */}
-                {selectedYear.items.length > 1 && (
-                  <div className="thumbnail-row">
-                    {selectedYear.items.map((item, idx) => (
-                      <img
-                        key={idx}
-                        src={item.image}
-                        alt=""
-                        className={`thumbnail ${activeSlide === idx ? "active" : ""}`}
-                        onClick={() => setActiveSlide(idx)}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* TEXT */}
-              <div className="text-box">
-                <span className="year-label">{activeItem.title}</span>
-                <h2>{activeItem.text}</h2>
-                <p>{activeItem.description}</p>
-              </div>
-
+            {/* TEXT */}
+            <div className="text-box">
+              <h2>{rightData[activeRight].title}</h2>
+              <h3>{rightData[activeRight].text}</h3>
+              <p>{rightData[activeRight].description}</p>
             </div>
-          </section>
+
+          </div>
+
         </section>
 
-        {/* LIGHTBOX IMAGE */}
-        {lightboxOpen && (
-          <div className="lightbox" onClick={() => setLightboxOpen(false)}>
-            <button className="close-btn" onClick={() => setLightboxOpen(false)}>×</button>
-            <img className="lightbox-image" src={activeItem.image} alt={activeItem.text} />
-          </div>
-        )}
-
-        {/* LIGHTBOX VIDEO */}
-        {videoOpen && (
-          <div className="video-lightbox" onClick={() => setVideoOpen(false)}>
-            <button className="close-btn" onClick={() => setVideoOpen(false)}>×</button>
-            <video
-              className="fullscreen-video"
-              src={activeItem.image}
-              controls
-              autoPlay
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-        )}
-
-        <Navigation />
       </section>
+
+      {/* LIGHTBOX */}
+      {lightboxOpen && (
+        <div className="lightbox">
+          <button className="close-btn" onClick={() => setLightboxOpen(false)}>×</button>
+          <img src={rightData[activeRight].image} alt="" />
+        </div>
+      )}
+
+      {/* FOOTER NAVIGATION */}
+      <Navigation />
+</section>
     </main>
+
   );
 }

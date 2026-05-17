@@ -50,7 +50,7 @@ const cards = [
   },
   {
     alt: 'Certification & Licenses',
-    page: '/categories',
+    page: '/certificate',
     color: '#b8953e',
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1VQifprz1viaQTIZ5pcfffa41_ZH7HKw_4g&s'

@@ -1,0 +1,287 @@
+/* =========================================================
+   FULL SCREEN LAYOUT
+========================================================= */
+.screen {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: lightgray;
+}
+
+/* =========================================================
+   MAIN PANEL
+========================================================= */
+.certificate-panel {
+  width: 100%;
+  height: 100%;
+  border: 3px solid #b8860b;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+.page-header {
+  height: 14vh;
+  min-height: 100px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 2vw;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  background: #d4b85a;
+  border-bottom: 3px solid #2d2417;
+  text-align: center;
+}
+
+/* =========================================================
+   TWO-PANEL LAYOUT
+========================================================= */
+.certificate-body {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  height: calc(100% - 14vh); /* header height subtracted */
+}
+
+/* LEFT PANEL: CAROUSEL */
+.left-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* RIGHT PANEL: SELECTED CERTIFICATE */
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-left: 3px solid #2d2417;
+  background: #f7f2e0;
+  padding: 1rem;
+}
+
+.right-panel img {
+  max-width: 90%;
+  max-height: 80%;
+  object-fit: contain;
+  border: 3px solid #2d2417;
+  border-radius: 12px;
+}
+
+.right-panel h2 {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #24160d;
+}
+
+/* =========================================================
+   CAROUSEL AREA
+========================================================= */
+.certificate-carousel {
+  overflow: hidden;
+  position: relative;
+}
+
+.certificate-track {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+/* =========================================================
+   CARD / SLIDE
+========================================================= */
+.certificate-frame {
+  flex: 0 0 calc((100% - 4vw) / 4);
+  height: 60vh;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 3px solid #2d2417;
+  background: #d4b85a;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  box-sizing: border-box;
+  position: relative;
+}
+
+.certificate-frame.active {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 40px rgba(0,0,0,0.35);
+}
+
+/* IMAGE */
+.certificate-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+  pointer-events: none;
+}
+
+.certificate-frame:hover img {
+  transform: scale(1.05);
+}
+
+/* TEXT */
+.certificate-title {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-top: 3px solid #2d2417;
+  color: #24160d;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  letter-spacing: 1px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+.certificate-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.certificate-actions button {
+  background: transparent;
+  border: 3px solid #2d2417;
+  color: #24160d;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.certificate-actions button.active,
+.certificate-actions button:hover {
+  background: #d4b85a;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Pager buttons */
+.certificate-pager button {
+  font-size: 2rem;
+  padding: 0.25rem 0.75rem;
+  border: 2px solid #2d2417;
+  background: #f1d06b;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.certificate-pager button:hover {
+  transform: scale(1.1);
+}
+
+/* =========================================================
+   FOOTER / NAVIGATION
+========================================================= */
+.bottom-bar {
+  height: 10vh;
+  min-height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2vw;
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+========================================================= */
+@media (max-width: 1024px) {
+  .certificate-body {
+    flex-direction: column;
+  }
+  .left-panel, .right-panel {
+    flex: none;
+    width: 100%;
+    height: 50%;
+    border-left: none;
+    border-top: 3px solid #2d2417;
+  }
+  .certificate-frame {
+    flex: 0 0 calc((100% - 4vw) / 2);
+    height: 40vh;
+  }
+}
+/* Fullscreen overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+/* Modal content box */
+.modal-content {
+  position: relative;
+  max-width: 95%;
+  max-height: 95%;
+  text-align: center;
+  color: #fff;
+  overflow: auto;
+}
+
+/* Certificate image in modal */
+.modal-image {
+  max-width: 100%;
+  max-height: 80vh; /* almost full screen height */
+  object-fit: contain; /* keep aspect ratio */
+  border-radius: 4px;
+}
+
+/* Modal title */
+.modal-title {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/* Close button */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+}
