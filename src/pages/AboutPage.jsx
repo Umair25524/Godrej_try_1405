@@ -178,6 +178,7 @@ export default function AboutPage() {
           text: "It's time for Africa",
           description: "We make our first African acquisitions – Rapidol and Kinky – opening up the fascinating world of hair extensions and hair care for women of African origin.",
           image: "src/assets/2008_1.jpg",
+          video: "https://www.youtube.com/watch?si=DjgfdyeGe1kVqdQR&v=1cH0BUSdxx4&feature=youtu.be",
         },
          {
           title: "2008",
@@ -560,6 +561,14 @@ const [activeImageIndex, setActiveImageIndex] = useState(0);
                 <span className="year-label">{activeItem.title}</span>
                 <h2>{activeItem.text}</h2>
                 <p>{activeItem.description}</p>
+                 {activeItem.video && (
+  <button
+    className="video-btn"
+    onClick={() => setVideoOpen(true)}
+  >
+    ▶
+  </button>
+)}
               </div>
 
             </div>
@@ -587,6 +596,45 @@ const [activeImageIndex, setActiveImageIndex] = useState(0);
             />
           </div>
         )}
+
+        {/* VIDEO MODAL */}
+{/* VIDEO MODAL */}
+{videoOpen && activeItem.video && (
+  <div
+    className="video-modal"
+    onClick={() => setVideoOpen(false)}
+  >
+    <button
+      className="video-close-btn"
+      onClick={() => setVideoOpen(false)}
+    >
+      ×
+    </button>
+
+    <div onClick={(e) => e.stopPropagation()}>
+
+      {/* YOUTUBE */}
+      {activeItem.video.includes("youtube") ? (
+        <iframe
+          src={`https://www.youtube.com/embed/${
+            new URL(activeItem.video).searchParams.get("v")
+          }`}
+          title="Video"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+        />
+      ) : (
+        <video
+          src={activeItem.video}
+          controls
+          autoPlay
+          playsInline
+        />
+      )}
+
+    </div>
+  </div>
+)}
 
         <Navigation />
       </section>
