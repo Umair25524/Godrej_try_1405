@@ -1,714 +1,343 @@
-/* =========================
-   PAGE
-========================= */
+/* =========================================================
+   GLOBAL WRAPPER
+========================================================= */
 
 .gallery-page {
   width: 100%;
   height: 100vh;
 
-  padding: 20px;
-
-  box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
 
+  background: #d9d9d9;
+
   overflow: hidden;
-
-  background:
-    radial-gradient(circle at top, #2a2115 0%, #120d08 100%);
+  font-family: system-ui, sans-serif;
 }
 
-/* =========================
-   BACKGROUND EFFECT
-========================= */
-
-.gallery-page::before {
-  content: "";
-
-  position: fixed;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.03),
-      rgba(255,255,255,0.01)
-    );
-
-  pointer-events: none;
-
-  z-index: 0;
-}
-
-.gallery-page > * {
-  position: relative;
-  z-index: 2;
-}
-
-/* =========================
-   HEADER
-========================= */
+/* =========================================================
+   HEADER (CERTIFICATE STYLE MATCH)
+========================================================= */
 
 .page-header {
-  width: 100%;
+  height: 12vh;
+  min-height: 90px;
 
-  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  border-radius: 24px;
+  background: #d4b85a;
+  border-bottom: 3px solid #2d2417;
 
-  border: 2px solid #b8860b;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 800;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.03),
-      rgba(255,255,255,0.01)
-    );
+  letter-spacing: 1px;
 
-  backdrop-filter: blur(10px);
-
-  color: #f3d980;
-
-  text-align: center;
-
-  font-size: 3rem;
-  font-weight: 900;
-
-  text-transform: uppercase;
-
-  letter-spacing: 2px;
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
+  color: #24160d;
 }
 
-/* =========================
+/* =========================================================
    MAIN LAYOUT
-========================= */
+========================================================= */
 
 .gallery-layout {
   flex: 1;
 
   display: flex;
 
-  gap: 24px;
-
-  margin-top: 22px;
-
   overflow: hidden;
+
+  padding: 12px;
+  gap: 16px;
 }
 
-/* =========================
-   LEFT PANEL
-========================= */
+/* =========================================================
+   LEFT PANEL (FILTER SIDEBAR)
+========================================================= */
 
 .left-panel {
-  width: 16vw;
-  min-width: 240px;
+  width: 220px;
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
-  gap: 18px;
+  gap: 14px;
 
-  overflow-y: auto;
-
-  padding-right: 6px;
-
-  scrollbar-width: none;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.left-panel::-webkit-scrollbar {
-  display: none;
-}
-
-/* =========================
-   CATEGORY BUTTON
-========================= */
-
+/* FILTER BUTTONS */
 .side-btn {
-  width: 100%;
-  min-height: 90px;
+  padding: 14px 16px;
 
-  border-radius: 18px;
+  border: 2px solid #2d2417;
+  border-radius: 10px;
 
-  border: 2px solid rgba(255,255,255,0.08);
+  background: #f7f2e0;
 
-  background:
-    linear-gradient(
-      145deg,
-      #d4b85a,
-      #b8860b
-    );
+  color: #24160d;
 
-  color: #1b1208;
-
-  font-size: 1.4rem;
-  font-weight: 900;
-
-  text-transform: uppercase;
-
-  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 700;
 
   cursor: pointer;
 
   transition: all 0.3s ease;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,0.35);
-
-  padding: 20px;
+  text-align: center;
 }
 
 .side-btn:hover {
-  transform: translateY(-5px);
-
-  box-shadow:
-    0 20px 40px rgba(0,0,0,0.45);
+  background: #d4b85a;
+  transform: translateX(4px);
 }
 
 .side-btn.active {
-  background:
-    linear-gradient(
-      145deg,
-      #f7db7a,
-      #d4a514
-    );
-
-  transform: scale(1.03);
+  background: #d4b85a;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 
-/* =========================
-   RIGHT PANEL
-========================= */
+/* =========================================================
+   RIGHT PANEL (VERTICAL SCROLL FIXED)
+========================================================= */
 
 .right-panel {
   flex: 1;
 
-  overflow: hidden;
+  padding: 10px;
 
-  display: flex;
-  flex-direction: column;
+  overflow-y: auto;   /* ✅ FIXED: vertical scroll only */
+  overflow-x: hidden; /* ❌ remove horizontal bug */
 }
 
-/* =========================
-   IMAGE GRID
-========================= */
+/* =========================================================
+   PRODUCT GRID (4 COLUMN CLEAN LAYOUT)
+========================================================= */
 
 .image-grid {
-  flex: 1;
+  display: grid;
 
-  display: flex;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(4, 1fr); /* 4 per row */
+  gap: 18px;
 
-  align-content: flex-start;
-
-  gap: 24px;
-
-  overflow-y: auto;
-
-  padding-right: 10px;
-  padding-bottom: 20px;
-
-  scrollbar-width: none;
-
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-
-  opacity: 1;
-
-  transform: translateX(0);
+  width: 100%;
 }
 
-.image-grid::-webkit-scrollbar {
-  display: none;
-}
-
-.image-grid.animate {
-  opacity: 0;
-
-  transform: translateX(-20px);
-}
-
-/* =========================
-   IMAGE CARD
-========================= */
+/* =========================================================
+   PRODUCT CARD (CERTIFICATE STYLE FRAME)
+========================================================= */
 
 .image-card {
-  position: relative;
+  aspect-ratio: 1 / 1;
 
-  width: calc(33.333% - 16px);
+  border: 3px solid #2d2417;
+  border-radius: 18px;
 
-  height: 240px;
-
-  border-radius: 26px;
+  background: #f7f2e0;
 
   overflow: hidden;
+
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
 
   cursor: pointer;
 
-  background:
-    rgba(255,255,255,0.04);
-
-  border:
-    1px solid rgba(255,255,255,0.08);
-
-  box-shadow:
-    0 15px 35px rgba(0,0,0,0.35);
-
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease;
-
-  flex-shrink: 0;
-}
-
-.image-card:hover {
-  transform:
-    translateY(-8px)
-    scale(1.02);
-
-  box-shadow:
-    0 25px 50px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .image-card img {
+  width: 100%;
+  height: 100%;
 
-  object-fit: contain;
+  object-fit: cover;
 
-  transition:
-    transform 0.5s ease,
-    filter 0.5s ease;
+  transition: transform 0.4s ease;
+}
+
+/* HOVER EFFECT */
+.image-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 22px 45px rgba(0,0,0,0.28);
 }
 
 .image-card:hover img {
-  transform: scale(1.08);
-
-  filter: brightness(1.08);
+  transform: scale(1.05);
 }
 
-/* =========================
-   IMAGE OVERLAY
-========================= */
-
-.image-card::after {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      to top,
-      rgba(0,0,0,0.5),
-      transparent 45%
-    );
-
-  opacity: 0;
-
-  transition: opacity 0.3s ease;
-}
-
-.image-card:hover::after {
-  opacity: 1;
-}
-
-/* =========================
-   IMAGE MODAL
-========================= */
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
 
 .image-modal {
   position: fixed;
   inset: 0;
 
-  background:
-    rgba(0,0,0,0.92);
-
-  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.92);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  z-index: 99999;
+  z-index: 1000;
 
-  padding: 30px;
-
-  animation: fadeIn 0.3s ease;
+  padding: 20px;
 }
 
-@keyframes fadeIn {
-
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-/* =========================
+/* =========================================================
    MODAL CONTENT
-========================= */
+========================================================= */
 
 .modal-content {
   position: relative;
 
-  width: 92%;
-  max-width: 1300px;
+  width: 100%;
+  max-width: 1000px;
 
-  background:
-    linear-gradient(
-      145deg,
-      #20160d,
-      #120d08
-    );
-
-  border:
-    2px solid rgba(212,184,90,0.3);
-
-  border-radius: 28px;
-
-  overflow: hidden;
-
-  display: flex;
-
-  box-shadow:
-    0 25px 70px rgba(0,0,0,0.5);
+  text-align: center;
 }
 
-/* =========================
-   MODAL IMAGE
-========================= */
+/* =========================================================
+   MODAL IMAGE WRAPPER
+========================================================= */
+
+.modal-image-wrapper {
+  width: 100%;
+  max-height: 80vh;
+
+  background: white;
+
+  border-radius: 14px;
+
+  padding: 14px;
+
+  box-sizing: border-box;
+}
 
 .modal-image {
-  width: 65%;
-  height: 80vh;
+  width: 100%;
+  height: 100%;
 
-  object-fit: cover;
-
-  background: black;
+  object-fit: contain;
 }
 
-/* =========================
+/* =========================================================
    MODAL TEXT
-========================= */
+========================================================= */
 
 .modal-text {
-  flex: 1;
+  margin-top: 12px;
 
-  padding: 50px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  color: white;
 }
 
 .modal-text h2 {
-  font-size: 3rem;
-
-  line-height: 1.1;
-
-  color: #f3d980;
-
-  margin-bottom: 24px;
-
-  font-weight: 900;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .modal-text p {
-  font-size: 1.4rem;
-
-  line-height: 1.8;
-
-  color: rgba(255,255,255,0.82);
+  font-size: 14px;
+  opacity: 0.8;
 }
 
-/* =========================
+.image-counter {
+  display: block;
+  margin-top: 6px;
+
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* =========================================================
    CLOSE BUTTON
-========================= */
+========================================================= */
 
 .close-modal {
   position: absolute;
+  top: -10px;
+  right: -10px;
 
-  top: 24px;
-  right: 24px;
-
-  width: 58px;
-  height: 58px;
-
-  border-radius: 50%;
+  width: 46px;
+  height: 46px;
 
   border: none;
+  border-radius: 50%;
 
-  background:
-    rgba(255,255,255,0.12);
+  background: #d4b85a;
+  color: #24160d;
 
-  color: white;
-
-  font-size: 2rem;
+  font-size: 22px;
+  font-weight: bold;
 
   cursor: pointer;
 
-  z-index: 20;
-
-  transition: all 0.3s ease;
-
-  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-.close-modal:hover {
-  background:
-    rgba(255,255,255,0.22);
+/* =========================================================
+   ARROW BUTTONS
+========================================================= */
 
-  transform:
-    rotate(90deg)
-    scale(1.08);
+.modal-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 44px;
+  height: 44px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(212, 184, 90, 0.9);
+
+  font-size: 24px;
+  font-weight: bold;
+
+  cursor: pointer;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 1200px) {
-
-  .modal-content {
-    flex-direction: column;
-  }
-
-  .modal-image {
-    width: 100%;
-    height: 50vh;
-  }
-
-  .modal-text {
-    padding: 30px;
-  }
-
-  .modal-text h2 {
-    font-size: 2.4rem;
-  }
+.modal-arrow.left {
+  left: 10px;
 }
 
-@media (max-width: 900px) {
+.modal-arrow.right {
+  right: 10px;
+}
 
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 1024px) {
   .gallery-layout {
     flex-direction: column;
   }
 
   .left-panel {
     width: 100%;
-    min-width: unset;
 
     flex-direction: row;
+    flex-wrap: wrap;
 
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    padding-bottom: 8px;
+    justify-content: center;
   }
 
-  .side-btn {
-    min-width: 200px;
-
-    min-height: 70px;
-
-    font-size: 1.1rem;
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .image-card {
-    width: calc(50% - 12px);
+  .right-panel {
+    overflow-y: visible;
   }
 }
 
 @media (max-width: 600px) {
-
-  .gallery-page {
-    padding: 10px;
-  }
-
-  .page-header {
-    padding: 18px;
-
-    font-size: 1.6rem;
-  }
-
-  .image-card {
-    width: 100%;
-
-    height: 200px;
-  }
-
-  .modal-image {
-    height: 35vh;
-  }
-
-  .modal-text {
-    padding: 20px;
-  }
-
-  .modal-text h2 {
-    font-size: 1.5rem;
-  }
-
-  .modal-text p {
-    font-size: 1rem;
-
-    line-height: 1.7;
+  .image-grid {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
-/* =========================
-   LEFT PANEL
-========================= */
-
-.left-panel {
-  width: 11vw;
-  min-width: 170px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 14px;
-
-  overflow-y: auto;
-
-  padding-right: 4px;
-
-  scrollbar-width: none;
-}
-
-.left-panel::-webkit-scrollbar {
-  display: none;
-}
-
-/* =========================
-   CATEGORY BUTTON
-========================= */
-
-.side-btn {
-  width: 100%;
-
-  min-height: 68px;
-
-  border-radius: 16px;
-
-  border: 2px solid rgba(255,255,255,0.06);
-
-  background:
-    linear-gradient(
-      145deg,
-      #d4b85a,
-      #b8860b
-    );
-
-  color: #1b1208;
-
-  font-size: 1rem;
-  font-weight: 800;
-
-  text-transform: uppercase;
-
-  letter-spacing: 1px;
-
-  cursor: pointer;
-
-  transition: all 0.3s ease;
-
-  box-shadow:
-    0 8px 20px rgba(0,0,0,0.3);
-
-  padding: 14px 12px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-}
-
-.side-btn:hover {
-  transform: translateY(-4px);
-
-  box-shadow:
-    0 18px 35px rgba(0,0,0,0.45);
-}
-
-.side-btn.active {
-  background:
-    linear-gradient(
-      145deg,
-      #f7db7a,
-      #d4a514
-    );
-
-  transform: scale(1.03);
-
-  box-shadow:
-    0 12px 28px rgba(212,184,90,0.3);
-}
-.gallery-layout {
-  gap: 18px;
-}
-/* =========================
-   LEFT PANEL
-========================= */
-
-.left-panel {
-  width: 180px;
-
-  flex-shrink: 0;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 14px;
-
-  overflow-y: auto;
-
-  padding-right: 4px;
-
-  scrollbar-width: none;
-}
-
-.left-panel::-webkit-scrollbar {
-  display: none;
-}
-/* =========================
-   CATEGORY BUTTON
-========================= */
-
-.side-btn {
-  width: 100%;
-
-  height: 62px;
-
-  border-radius: 14px;
-
-  border: 2px solid rgba(255,255,255,0.06);
-
-  background:
-    linear-gradient(
-      145deg,
-      #d4b85a,
-      #b8860b
-    );
-
-  color: #1b1208;
-
-  font-size: 0.95rem;
-  font-weight: 800;
-
-  text-transform: uppercase;
-
-  letter-spacing: 1px;
-
-  cursor: pointer;
-
-  transition: all 0.3s ease;
-
-  padding: 10px;
-}
-
