@@ -9,6 +9,7 @@ import './styles/about.css'
 import './styles/product.css'
 import "./styles/contact.css";
 import "./styles/certificate.css";
+import "./styles/gallery.css";
 // Add more page CSS as needed
 
 ReactDOM.createRoot(document.getElementById('root')).render(

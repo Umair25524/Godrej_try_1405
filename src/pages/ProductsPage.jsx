@@ -1,110 +1,364 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navigation from "../components/Navigation.jsx";
 import PageHeader from "../components/PageHeader.jsx";
+import { useDragSwipe } from "../hooks/useDragSwipe";
 import "../styles/product.css";
 
 export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedImage, setSelectedImage] = useState(null);
   const [animate, setAnimate] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Gallery data with categories assigned to each image
+  /* =========================
+     GALLERY DATA
+  ========================= */
+
   const galleryData = [
     {
       category: "Homecare",
       images: [
-        { image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb", title: "Nature", description: "Beautiful nature" },
-        { image: "https://images.unsplash.com/photo-1494526585095-c41746248156", title: "Mountain", description: "Mountain view" },
+        {
+          image:
+            "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+          title: "Nature",
+          description: "Beautiful nature",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1494526585095-c41746248156",
+          title: "Mountain",
+          description: "Mountain view",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
+          title: "Living Room",
+          description: "Modern home interior",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85",
+          title: "Luxury Home",
+          description: "Luxury home setup",
+        },
       ],
     },
+
     {
       category: "Office",
       images: [
-        { image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c", title: "Office", description: "Office workspace" },
-        { image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d", title: "Team Work", description: "Team work" },
+        {
+          image:
+            "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+          title: "Office",
+          description: "Office workspace",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+          title: "Team Work",
+          description: "Team collaboration",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1497366754035-f200968a6e72",
+          title: "Conference",
+          description: "Conference room",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1497366412874-3415097a27e7",
+          title: "Workspace",
+          description: "Professional workspace",
+        },
       ],
     },
+
     {
       category: "Coding",
       images: [
-        { image: "https://images.unsplash.com/photo-1487014679447-9f8336841d58", title: "Laptop", description: "Laptop setup" },
-        { image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085", title: "Coding", description: "Coding in progress" },
+        {
+          image:
+            "https://images.unsplash.com/photo-1487014679447-9f8336841d58",
+          title: "Laptop",
+          description: "Laptop setup",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+          title: "Coding",
+          description: "Coding in progress",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
+          title: "Development",
+          description: "Software development",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+          title: "Programming",
+          description: "Programming setup",
+        },
       ],
     },
   ];
 
-  // Compute the list of categories including "All"
-  const categories = ["All", ...galleryData.map(item => item.category)];
+  /* =========================
+     CATEGORIES
+  ========================= */
 
-  // Compute active images based on selected category
+  const categories = [
+    "All",
+    ...galleryData.map((item) => item.category),
+  ];
+
+  /* =========================
+     ACTIVE IMAGES
+  ========================= */
+
   const activeImages =
     activeCategory === "All"
-      ? galleryData.flatMap(item => item.images)
-      : galleryData.find(item => item.category === activeCategory)?.images || [];
+      ? galleryData.flatMap((item) => item.images)
+      : galleryData.find(
+          (item) => item.category === activeCategory
+        )?.images || [];
 
-  // Handle category change with animation
+  /* =========================
+     CATEGORY SWITCH
+  ========================= */
+
   const handleCategoryChange = (category) => {
     if (category === activeCategory) return;
-    setAnimate(true); // start fade out
+
+    setAnimate(true);
+
     setTimeout(() => {
-      setActiveCategory(category); // switch images
-      setAnimate(false); // fade in
-    }, 300); // match CSS transition duration
+      setActiveCategory(category);
+      setAnimate(false);
+    }, 300);
   };
+
+  /* =========================
+     MODAL OPEN
+  ========================= */
+
+  const openModal = (item, index) => {
+    setSelectedImage(item);
+    setCurrentIndex(index);
+  };
+
+  /* =========================
+     MODAL NAVIGATION
+  ========================= */
+
+  const nextSlide = () => {
+    const next =
+      currentIndex + 1 >= activeImages.length
+        ? 0
+        : currentIndex + 1;
+
+    setCurrentIndex(next);
+    setSelectedImage(activeImages[next]);
+  };
+
+  const prevSlide = () => {
+    const prev =
+      currentIndex - 1 < 0
+        ? activeImages.length - 1
+        : currentIndex - 1;
+
+    setCurrentIndex(prev);
+    setSelectedImage(activeImages[prev]);
+  };
+
+  /* =========================
+     SWIPE HANDLER
+  ========================= */
+
+  const handleSwipe = (direction) => {
+    if (direction === 1) {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
+  };
+
+  const { handlers, dragDelta } =
+    useDragSwipe(handleSwipe);
+
+  /* =========================
+     KEYBOARD SUPPORT
+  ========================= */
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (!selectedImage) return;
+
+      if (e.key === "ArrowRight") {
+        nextSlide();
+      }
+
+      if (e.key === "ArrowLeft") {
+        prevSlide();
+      }
+
+      if (e.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+
+    return () =>
+      window.removeEventListener("keydown", handleKey);
+  }, [selectedImage, currentIndex]);
+
+  /* =========================
+     JSX
+  ========================= */
 
   return (
     <main className="gallery-page">
-      {/* Header */}
+      {/* HEADER */}
+
       <PageHeader title="PRODUCTS" />
 
-      {/* Gallery layout */}
+      {/* MAIN LAYOUT */}
+
       <section className="gallery-layout">
-        {/* Left panel buttons */}
+        {/* LEFT PANEL */}
+
         <aside className="left-panel">
           {categories.map((category, index) => (
             <button
               key={index}
-              className={`side-btn ${activeCategory === category ? "active" : ""}`}
-              onClick={() => handleCategoryChange(category)}
+              className={`side-btn ${
+                activeCategory === category
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                handleCategoryChange(category)
+              }
             >
               {category}
             </button>
           ))}
         </aside>
 
-        {/* Right panel image grid */}
+        {/* RIGHT PANEL */}
+
         <section className="right-panel">
-          <div className={`image-grid ${animate ? "animate" : ""}`}>
+          <div
+            className={`image-grid ${
+              animate ? "animate" : ""
+            }`}
+          >
             {activeImages.map((item, index) => (
               <div
                 className="image-card"
                 key={index}
-                onClick={() => setSelectedImage(item)}
+                onClick={() =>
+                  openModal(item, index)
+                }
               >
-                <img src={item.image} alt={item.title} />
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  draggable={false}
+                />
               </div>
             ))}
           </div>
         </section>
       </section>
 
-      {/* Image modal */}
+      {/* MODAL */}
+
       {selectedImage && (
-        <div className="image-modal" onClick={() => setSelectedImage(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={() => setSelectedImage(null)}>
+        <div
+          className="image-modal"
+          onClick={() =>
+            setSelectedImage(null)
+          }
+        >
+          <div
+            className="modal-content"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+            {/* CLOSE BUTTON */}
+
+            <button
+              className="close-modal"
+              onClick={() =>
+                setSelectedImage(null)
+              }
+            >
               ×
             </button>
-            <img src={selectedImage.image} alt={selectedImage.title} className="modal-image" />
+
+            {/* LEFT ARROW */}
+
+            <button
+              className="modal-arrow left"
+              onClick={prevSlide}
+            >
+              ‹
+            </button>
+
+            {/* RIGHT ARROW */}
+
+            <button
+              className="modal-arrow right"
+              onClick={nextSlide}
+            >
+              ›
+            </button>
+
+            {/* IMAGE */}
+
+            <div
+              className="modal-image-wrapper"
+              {...handlers}
+            >
+              <img
+                src={selectedImage.image}
+                alt={selectedImage.title}
+                className="modal-image"
+                draggable={false}
+                style={{
+                  transform: `translateX(${
+                    dragDelta * 0.12
+                  }px)`,
+                }}
+              />
+            </div>
+
+            {/* TEXT */}
+
             <div className="modal-text">
               <h2>{selectedImage.title}</h2>
-              <p>{selectedImage.description}</p>
+
+              <p>
+                {selectedImage.description}
+              </p>
+
+              <span className="image-counter">
+                {currentIndex + 1} /{" "}
+                {activeImages.length}
+              </span>
             </div>
           </div>
         </div>
       )}
 
-      {/* Footer / Navigation */}
+      {/* FOOTER */}
+
       <Navigation />
     </main>
   );
