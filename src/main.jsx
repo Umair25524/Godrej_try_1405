@@ -11,6 +11,7 @@ import "./styles/contact.css";
 import "./styles/certificate.css";
 import "./styles/gallery.css";
 import "./styles/projects.css";
+import "./styles/partner.css";
 // Add more page CSS as needed
 
 ReactDOM.createRoot(document.getElementById('root')).render(
