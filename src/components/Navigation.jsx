@@ -7,7 +7,7 @@ const navItems = [
   { label: 'LAYOUT', alt: 'Godrej Layout Navigation Icon', path: '/layoutpage' },
   { label: 'BRANDS', alt: 'Godrej Brands Navigation Icon', path: '/products' },
   { label: 'PARTNERS', alt: 'Godrej Partners Navigation Icon', path: '/partner' },
-  { label: 'ACHIEVEMENTS', alt: 'Godrej Achievements Navigation Icon', path: '/projects' },
+  { label: 'EMPLOYEE DETAILS', alt: 'Godrej Employee Details Navigation Icon', path: '/projects' },
   { label: 'CERTIFICATE', alt: 'Godrej Certificate Navigation Icon', path: '/certificate' },
   { label: 'GALLERY', alt: 'Godrej Gallery Navigation Icon', path: '/gallery' },
   { label: 'CONTACT', alt: 'Godrej Contact Navigation Icon', path: '/contact' },

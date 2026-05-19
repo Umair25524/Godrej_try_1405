@@ -1,0 +1,169 @@
+/* =========================================================
+   FULL SCREEN LAYOUT
+========================================================= */
+.full-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #f5f1e6;
+  z-index: 1000;
+  padding: 1rem;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   MAIN APP CONTAINER
+========================================================= */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #f5f1e6, #e7dcc2);
+  border: 3px solid #b8860b;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+.header {
+  height: 12vh;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d4b85a;
+  border-bottom: 3px solid #2d2417;
+  color: #24160d;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.button-container button {
+  padding: 0.8rem 2rem;
+  border: 2px solid #2d2417;
+  border-radius: 10px;
+  background: #f7f2e0;
+  color: #24160d;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-container button:hover,
+.button-container button.active {
+  background: #d4b85a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================================
+   CONTENT AREA
+========================================================= */
+.content-area {
+  flex: 1;
+  margin: 1rem;
+  border: 6px solid #2d2417;
+  border-radius: 12px;
+  background: #f7f2e0;
+  overflow: auto;
+  padding: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Full-screen effect */
+.full-screen .content-area {
+  border-radius: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+.content-area table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.content-area th,
+.content-area td {
+  border: 1px solid #2d2417;
+  padding: 8px;
+  text-align: center;
+  background: #f7f2e0;
+  color: #24160d;
+}
+
+.content-area thead th {
+  background: #d4b85a;
+  font-weight: 800;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+.navigation {
+  height: 10vh;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d4b85a;
+  border-top: 3px solid #2d2417;
+  color: #24160d;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+.content-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content-area::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 1024px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .content-area {
+    margin: 0.5rem;
+  }
+}
+
+.content-area th {
+  font-size: 22px;
+}
+
+.content-area td {
+  font-size: 30px;
+}
